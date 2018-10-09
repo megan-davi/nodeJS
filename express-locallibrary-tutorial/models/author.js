@@ -14,17 +14,37 @@ var AuthorSchema = new Schema(
 
 // Virtual for author's full name
 AuthorSchema
-.virtual('name_formatted')
+.virtual('name')
 .get(function () {
-  return this.date_of_birth ? moment(this.date_of_birth).format('YYYY-MM-DD') : '';
+  return this.family_name +', '+this.first_name;
 });
 
 // Virtual for author's lifespan
 AuthorSchema
-.virtual('lifespan')
 .get(function () {
-  return (this.date_of_death.getYear() - this.date_of_birth.getYear()).toString();
+  var lifetime_string='';
+  if (this.date_of_birth) {
+      lifetime_string=moment(this.date_of_birth).format('MMMM Do, YYYY');
+      }
+  lifetime_string+=' - ';
+  if (this.date_of_death) {
+      lifetime_string+=moment(this.date_of_death).format('MMMM Do, YYYY');
+      }
+  return lifetime_string
 });
+
+AuthorSchema
+.virtual('date_of_birth_yyyy_mm_dd')
+.get(function () {
+  return moment(this.date_of_birth).format('YYYY-MM-DD');
+});
+
+AuthorSchema
+.virtual('date_of_death_yyyy_mm_dd')
+.get(function () {
+  return moment(this.date_of_death).format('YYYY-MM-DD');
+});
+
 
 // Virtual for author's URL
 AuthorSchema
