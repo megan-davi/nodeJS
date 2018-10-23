@@ -1,3 +1,4 @@
+var mongoose = require('mongoose');
 var Book = require('../models/book');
 var Author = require('../models/author');
 var Genre = require('../models/genre');

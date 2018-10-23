@@ -1,1 +1,10 @@
+npm install
+npm install moment
+
 SET DEBUG=express-locallibrary-tutorial:* & npm start
+
+localhost:3000
+
+
+trouble: getting the author lifespan to mimic the bookinstance date using moment
+I had to rename date_of_birth as date_of_birth_formatted so that the schema names did not conflict

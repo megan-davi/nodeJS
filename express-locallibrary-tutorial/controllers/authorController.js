@@ -1,4 +1,5 @@
 var Author = require('../models/author');
+var mongoose = require('mongoose');
 
 // Display list of all Authors.
 exports.author_list = function(req, res, next) {
