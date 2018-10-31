@@ -11,7 +11,7 @@ module.exports = router;
 
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://maori:(2Seamless)@ds155252.mlab.com:55252/local_library_mb';
+var mongoDB = process.env.MONGODB_URI || 'mongodb://maori-chan:password123@ds145573.mlab.com:45573/local_library494';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;

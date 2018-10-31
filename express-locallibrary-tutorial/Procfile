@@ -1,0 +1,9 @@
+
+> express-locallibrary-tutorial@0.0.0 start C:\Users\conta_000\Desktop\n\express-locallibrary-tutorial
+> node ./bin/www
+
+[0mGET / [36m302 [0m7.732 ms - 60[0m
+[0mGET /catalog [32m200 [0m1038.826 ms - -[0m
+[0mGET /stylesheets/style.css [32m200 [0m3.519 ms - 80[0m
+[0mGET /favicon.ico [33m404 [0m30.705 ms - -[0m
+Terminate batch job (Y/N)? 
