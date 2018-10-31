@@ -12,4 +12,4 @@ I ran into several issues throughout this project:
 * Getting the genre detail page to display. I continue to run into a 404 error. Currently working on a fix for this one.
 * Deploying to heroku. I am able to get a heroku app running, but pushing my files onto the heroku server seems to be causing issues.
 
-Despite the issues that I ran into when working on this project, I have learned far more doing this tutorial about nodeJS than I have in the past. IUn sdf
+Despite the issues that I ran into when working on this project, I have learned far more doing this tutorial about nodeJS than I have in the past. In particular, seeing how the views, controllers, and models all work together is much more clear to me now. I also have a much greater appreciation for the amount of dedication it takes to get a project up and running, from development to deployment. 
