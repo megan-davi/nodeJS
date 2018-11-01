@@ -1,6 +1,5 @@
 # Repository for testing sites built with nodeJS and express.
 
----
 
 ### Express Local Library Tutorial Folder:
 [Link to tutorial](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Tutorial_local_library_website)
@@ -13,3 +12,9 @@ I ran into several issues throughout this project:
 * Deploying to heroku. I am able to get a heroku app running, but pushing my files onto the heroku server seems to be causing issues.
 
 Despite the issues that I ran into when working on this project, I have learned far more doing this tutorial about nodeJS than I have in the past. In particular, seeing how the views, controllers, and models all work together is much more clear to me now. I also have a much greater appreciation for the amount of dedication it takes to get a project up and running, from development to deployment. 
+
+
+### Student Database Folder:
+[Link to tutorial](https://www.youtube.com/watch?v=4yqu8YF29cU)
+
+TBE
