@@ -1,9 +1,10 @@
 {
-  "name": "mongo-proj",
+  "name": "student-db",
   "version": "0.0.0",
   "server": false,
   "private": true,
   "scripts": {
+    "start": "node ./bin/www",
     "test": "",
     "build": ""
   },
