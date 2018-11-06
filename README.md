@@ -16,5 +16,10 @@ Despite the issues that I ran into when working on this project, I have learned 
 
 ### Student Database Folder:
 [Link to tutorial](https://www.youtube.com/watch?v=4yqu8YF29cU)
+[Link to deployment](https://student-db-rlukmi.turbo360-vertex.com/)
 
-TBE
+After learning the basics of how nodeJS, express, and mongoDB can work together, this project allowed me to expand that knowledge to include deployment to Turbo360 as well. Turbo360 is a site that scaffolds RESTful apis and allows for an easy means to deploy nodeJS-based projects. 
+
+My largest obstacle in this project was the actual deployment to Turbo360. Although my local machine ran the site and its connection to the mLab-hosted database fine, the connection to the database appeared to be lost after deployment. 
+
+My greatest takeaways from this project include using URL endpoints to troubleshoot nodeJS code and good practice with writing CRUD operations that can interact with a database.
