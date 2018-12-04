@@ -15,7 +15,7 @@ var ParticipantSchema = new Schema(
 );
 
 
-// Virtual for partipant's URL
+// Virtual for participant's URL
 ParticipantSchema
 .virtual('url')
 .get(function () {
