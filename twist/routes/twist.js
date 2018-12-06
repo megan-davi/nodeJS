@@ -3,6 +3,8 @@ var router = express.Router();
 
 // Require controller modules.
 var highSchoolController = require('../controllers/highSchoolController');
+var participantController = require('../controllers/participantController');
+var presenterController = require('../controllers/presenterController');
 // var author_controller = require('../controllers/authorController');
 // var genre_controller = require('../controllers/genreController');
 // var book_instance_controller = require('../controllers/bookinstanceController');
@@ -36,31 +38,57 @@ router.get('/highSchool/:id', highSchoolController.highSchoolDetail);
 // GET request for list of all high schools.
 router.get('/highSchool', highSchoolController.highSchoolList);
 
-/// AUTHOR ROUTES ///
+/// PARTICIPANT ROUTES ///
 
-// // GET request for creating Author. NOTE This must come before route for id (i.e. display author).
-// router.get('/author/create', author_controller.author_create_get);
+// GET request for creating a participant. 
+router.get('/participant/create', participantController.participantCreateGet);
 
-// // POST request for creating Author.
-// router.post('/author/create', author_controller.author_create_post);
+// POST request for creating participant.
+router.post('/participant/create', participantController.participantCreatePost);
 
-// // GET request to delete Author.
-// router.get('/author/:id/delete', author_controller.author_delete_get);
+// GET request to delete participant.
+router.get('/participant/:id/delete', participantController.participantDeleteGet);
 
-// // POST request to delete Author.
-// router.post('/author/:id/delete', author_controller.author_delete_post);
+// POST request to delete participant.
+router.post('/participant/:id/delete', participantController.participantDeletePost);
 
-// // GET request to update Author.
-// router.get('/author/:id/update', author_controller.author_update_get);
+// GET request to update participant.
+router.get('/participant/:id/update', participantController.participantUpdateGet);
 
-// // POST request to update Author.
-// router.post('/author/:id/update', author_controller.author_update_post);
+// POST request to update participant.
+router.post('/participant/:id/update', participantController.participantUpdatePost);
 
-// // GET request for one Author.
-// router.get('/author/:id', author_controller.author_detail);
+// GET request for one participant.
+router.get('/participant/:id', participantController.participantDetail);
 
-// // GET request for list of all Authors.
-// router.get('/authors', author_controller.author_list);
+// GET request for list of all participant.
+router.get('/participant', participantController.participantList);
+
+/// PRESENTER ROUTES ///
+
+// GET request for creating a presenter. 
+router.get('/presenter/create', presenterController.presenterCreateGet);
+
+// POST request for creating presenter.
+router.post('/presenter/create', presenterController.presenterCreatePost);
+
+// GET request to delete presenter.
+router.get('/presenter/:id/delete', presenterController.presenterDeleteGet);
+
+// POST request to delete presenter.
+router.post('/presenter/:id/delete', presenterController.presenterDeletePost);
+
+// GET request to update presenter.
+router.get('/presenter/:id/update', presenterController.presenterUpdateGet);
+
+// POST request to update presenter.
+router.post('/presenter/:id/update', presenterController.presenterUpdatePost);
+
+// GET request for one presenter.
+router.get('/presenter/:id', presenterController.presenterDetail);
+
+// GET request for list of all presenter.
+router.get('/presenter', presenterController.presenterList);
 
 // /// GENRE ROUTES ///
 

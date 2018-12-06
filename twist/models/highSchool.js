@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+// Define Schema
 var Schema = mongoose.Schema;
 
 var HighSchoolSchema = new Schema(
@@ -17,5 +18,5 @@ HighSchoolSchema
   return '/twist/highSchool/' + this._id;
 });
 
-// Export model
+// Export function to create model class
 module.exports = mongoose.model('HighSchool', HighSchoolSchema);

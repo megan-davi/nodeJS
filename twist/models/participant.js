@@ -9,7 +9,7 @@ var ParticipantSchema = new Schema(
     firstName: {type: String, max: 100},
     address: {type: String, max: 400},
     email: {type: String, max: 300},
-    timeStamp: {type: Timestamp, default: Date.now},
+    timeStamp: {type: Date, default: Date.now},
     participantType: {type: String, enum: ['Educator/Sponsor', 'Student'], default: 'Student', required: true}
   }
 );

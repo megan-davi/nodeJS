@@ -1,5 +1,9 @@
 var HighSchool = require('../models/highSchool');
 
+exports.index = function(req, res) {
+    res.send('NOT IMPLEMENTED: Site Home Page');
+};
+
 // Display list of all high schools.
 exports.highSchoolList = function(req, res) {
     res.send('NOT IMPLEMENTED: High school list');
@@ -10,23 +14,12 @@ exports.highSchoolDetail = function(req, res) {
     res.send('NOT IMPLEMENTED: High school detail: ' + req.params.id);
 };
 
-// Display high school create form on GET.
-exports.highSchoolCreateGet = function(req, res, next) { 
-      
-    // Get all authors and genres, which we can use for adding to our book.
-    async.parallel({
-        authors: function(callback) {
-            Author.find(callback);
-        },
-        genres: function(callback) {
-            Genre.find(callback);
-        },
-    }, function(err, results) {
-        if (err) { return next(err); }
-        res.render('highSchoolForm', { title: 'Create High School', authors: results.authors, genres: results.genres });
-    });
-    
+
+// Display Author create form on GET.
+exports.highSchoolCreateGet = function(req, res) {
+    res.send('NOT IMPLEMENTED: High School create GET');
 };
+
 
 // Handle high school create on POST.
 exports.highSchoolCreatePost = function(req, res) {
@@ -49,6 +42,6 @@ exports.highSchoolUpdateGet = function(req, res) {
 };
 
 // Handle high school update on POST.
-exports.highSchooolUpdatePost = function(req, res) {
+exports.highSchoolUpdatePost = function(req, res) {
     res.send('NOT IMPLEMENTED: High school update POST');
 };
