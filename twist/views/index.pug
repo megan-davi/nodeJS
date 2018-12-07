@@ -2,4 +2,20 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Welcome to TWIST!
+  p TWIST, or Teen Women in Science and Technology, is a one-day conference to expose teen women across the state to various career possibilities. TWIST was developed by K-State Polytechnic and the Salina community more than 25 years ago. TWIST is open to any young woman in ninth through 12th grade. K-State Polytechnic encourages high school sponsors or organizers to register students. Students must register individually to choose their top five career sessions.
+  br
+  h4 Thursday, Jan. 10, 2019
+  p 8:30 a.m. - 1 p.m.
+  p K-State Polytechnic Campus
+  p Salina, Kansas
+
+  if error
+    p Error getting dynamic content.
+  else
+    br
+    p Current number of participants:
+
+    ul
+      li #[strong Participants:] !{data.participantCount}
+      li #[strong High Schools:] !{data.highSchoolCount}

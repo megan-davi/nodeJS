@@ -10,12 +10,10 @@ exports.presenterDetail = function(req, res) {
     res.send('NOT IMPLEMENTED: presenter detail: ' + req.params.id);
 };
 
-
 // Display presenter create form on GET.
 exports.presenterCreateGet = function(req, res) {
     res.send('NOT IMPLEMENTED: presenter create GET');
 };
-
 
 // Handle presenter create on POST.
 exports.presenterCreatePost = function(req, res) {

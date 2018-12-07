@@ -1,4 +1,5 @@
 var Participant = require('../models/participant');
+var async = require('async');
 
 // Display list of all participants.
 exports.participantList = function(req, res) {
@@ -10,12 +11,10 @@ exports.participantDetail = function(req, res) {
     res.send('NOT IMPLEMENTED: participant detail: ' + req.params.id);
 };
 
-
 // Display participant create form on GET.
 exports.participantCreateGet = function(req, res) {
     res.send('NOT IMPLEMENTED: participant create GET');
 };
-
 
 // Handle participant create on POST.
 exports.participantCreatePost = function(req, res) {

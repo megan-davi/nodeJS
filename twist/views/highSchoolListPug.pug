@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+
+  ul
+    each highSchool in highSchoolList
+      li
+        a(href=highSchool.url) #(highSchool.highSchoolName}
+
+    else
+      li There are no high schools.

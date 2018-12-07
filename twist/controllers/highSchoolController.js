@@ -1,12 +1,31 @@
 var HighSchool = require('../models/highSchool');
+var Participant = require('../models/participant');
+var async = require('async');
 
+// Displays home page
 exports.index = function(req, res) {
-    res.send('NOT IMPLEMENTED: Site Home Page');
+
+    async.parallel({
+        highSchoolCount: function(callback) {
+            HighSchool.countDocuments({}, callback); // Pass an empty object as match condition to find all documents of this collection
+        },
+        participantCount: function(callback) {
+            Participant.countDocuments({}, callback);
+        }
+    }, function(err, results) {
+        res.render('index', { title: 'Twist Home', error: err, data: results });
+    });
 };
 
 // Display list of all high schools.
-exports.highSchoolList = function(req, res) {
-    res.send('NOT IMPLEMENTED: High school list');
+exports.highSchoolListPug = function(req, res, next) {
+  HighSchool.find({}, 'highSchoolName')
+    .populate('highSchoolName')
+    .exec(function (err, highSchoolList) {
+      if (err) { return next(err); }
+      //Successful, so render
+      res.render('highSchoolListPug', { title: 'High School List', highSchoolListPug: highSchoolList });
+    });
 };
 
 // Display detail page for a specific high school.
