@@ -17,8 +17,8 @@ exports.index = function(req, res) {
     });
 };
 
-// Display list of all high schools.
-exports.highSchoolListPug = function(req, res, next) {
+// // Display list of all high schools.
+exports.highSchoolList = function(req, res, next) {
   HighSchool.find({}, 'highSchoolName')
     .populate('highSchoolName')
     .exec(function (err, highSchoolList) {
@@ -27,6 +27,11 @@ exports.highSchoolListPug = function(req, res, next) {
       res.render('highSchoolListPug', { title: 'High School List', highSchoolListPug: highSchoolList });
     });
 };
+
+// Display detail page for a specific high school.
+// exports.highSchoolList = function(req, res) {
+//     res.send('NOT IMPLEMENTED: High school detail: ' + req.params.id);
+// };
 
 // Display detail page for a specific high school.
 exports.highSchoolDetail = function(req, res) {
