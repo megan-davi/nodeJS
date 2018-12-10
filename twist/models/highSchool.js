@@ -5,8 +5,8 @@ var Schema = mongoose.Schema;
 
 var HighSchoolSchema = new Schema(
   {
-    highSchoolId: {type: Number, required: true},
     highSchoolName: {type: String, max: 100},
+    address: {type: String, max: 400}
   }
 );
 

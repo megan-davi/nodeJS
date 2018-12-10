@@ -2,12 +2,13 @@ extends layout
 
 block content
   h1= title
+  h5 Click to view more information about a high school.
+  br
 
   ul
     each highSchool in highSchoolList
       li
-        a(href=highSchool.url) #(highSchool.highSchoolName}
-        |  (#{highSchool.highSchoolId})
+        a(href=highSchool.url) #{highSchool.highSchoolName}
 
     else
       li There are no high schools.

@@ -10,7 +10,8 @@ var ParticipantSchema = new Schema(
     address: {type: String, max: 400},
     email: {type: String, max: 300},
     timeStamp: {type: Date, default: Date.now},
-    participantType: {type: String, enum: ['Educator/Sponsor', 'Student'], default: 'Student', required: true}
+    participantType: {type: String, enum: ['Educator/Sponsor', 'Student'], default: 'Student', required: true},
+    highSchool: {type: Schema.Types.ObjectId, ref: 'HighSchool'}
   }
 );
 

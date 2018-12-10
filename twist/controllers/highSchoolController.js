@@ -13,29 +13,39 @@ exports.index = function(req, res) {
             Participant.countDocuments({}, callback);
         }
     }, function(err, results) {
-        res.render('index', { title: 'Twist Home', error: err, data: results });
+        res.render('index', { title: 'TWIST Home', error: err, data: results });
     });
 };
 
 // // Display list of all high schools.
 exports.highSchoolList = function(req, res, next) {
-  HighSchool.find({}, 'highSchoolName')
-    .populate('highSchoolName')
-    .exec(function (err, highSchoolListFunction) {
+  HighSchool.find({})
+    .exec(function (err, results) {
       if (err) { return next(err); }
       //Successful, so render
-      res.render('highSchoolList', { title: 'High School List', highSchoolList: highSchoolListFunction });
+      res.render('highSchoolList', { title: 'High School List', highSchoolList: results });
     });
 };
 
-// Display detail page for a specific high school.
-// exports.highSchoolList = function(req, res) {
-//     res.send('NOT IMPLEMENTED: High school detail: ' + req.params.id);
-// };
 
 // Display detail page for a specific high school.
-exports.highSchoolDetail = function(req, res) {
-    res.send('NOT IMPLEMENTED: High school detail: ' + req.params.id);
+exports.highSchoolDetail = function(req, res, next) {
+    async.parallel({
+        highSchool: function(callback) {
+            HighSchool.findById(req.params.id)
+              .exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); } // Error in API usage.
+        if (results.highSchool==null) { // No results.
+            var err = new Error('High School not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Successful, so render.
+        res.render('highSchoolDetail', { title: 'High School Detail', highSchool: results.highSchool } );
+    });
+
 };
 
 
