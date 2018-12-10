@@ -21,10 +21,10 @@ exports.index = function(req, res) {
 exports.highSchoolList = function(req, res, next) {
   HighSchool.find({}, 'highSchoolName')
     .populate('highSchoolName')
-    .exec(function (err, highSchoolList) {
+    .exec(function (err, highSchoolListFunction) {
       if (err) { return next(err); }
       //Successful, so render
-      res.render('highSchoolListPug', { title: 'High School List', highSchoolListPug: highSchoolList });
+      res.render('highSchoolList', { title: 'High School List', highSchoolList: highSchoolListFunction });
     });
 };
 

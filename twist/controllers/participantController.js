@@ -2,8 +2,16 @@ var Participant = require('../models/participant');
 var async = require('async');
 
 // Display list of all participants.
-exports.participantList = function(req, res) {
-    res.send('NOT IMPLEMENTED: participant list');
+exports.participantList = function(req, res, next) {
+
+  Participant.find()
+    .sort([['lastName', 'ascending']])
+    .exec(function (err, participantListFunction) {
+      if (err) { return next(err); }
+      //Successful, so render
+      res.render('participantList', { title: 'Participant List', participantList: participantListFunction });
+    });
+
 };
 
 // Display detail page for a specific participant.

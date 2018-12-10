@@ -1,4 +1,4 @@
-var Presenter = require('../models/presenter');
+var presenter = require('../models/presenter');
 
 // Display list of all presenters.
 exports.presenterList = function(req, res) {
