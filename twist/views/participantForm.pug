@@ -19,12 +19,10 @@ block content
       input#email.form-control(type='text', placeholder='Participant email' name='email' required='false' value=(undefined===participant ? '' : participant.email) )
     div.form-group
       label(for='participantType') Participant Type:
-      select#participantType.form-control(type='select', placeholder='Select participant tt' name='author' required='true' )
-        for author in authors
-          if book
-            option(value=author._id selected=(author._id.toString()==book.author ? 'selected' : false) ) #{author.name}
-          else
-            option(value=author._id) #{author.name}
+       select#participantType.form-control(type='select', placeholder='Select participant type' name='participantType' required='true' )
+        option(value=Student) Student
+        option(value=Educator/Sponsor) Educator/Sponsor
+
 
     button.btn.btn-primary(type='submit') Submit
 

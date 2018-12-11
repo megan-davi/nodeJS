@@ -7,7 +7,7 @@ block content
 
   ul
     each highSchool in highSchoolList
-      li
+      li(type='square')
         a(href=highSchool.url) #{highSchool.highSchoolName}
 
     else

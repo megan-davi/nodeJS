@@ -2,6 +2,10 @@ var Participant = require('../models/participant');
 var HighSchool = require('../models/highSchool');
 var async = require('async');
 
+// Import validation and sanitization methods
+const { body,validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
+
 // 👀 Display list of all participants.
 exports.participantList = function(req, res, next) {
 
@@ -43,7 +47,7 @@ exports.participantCreateGet = function(req, res, next) {
     async.parallel({
     }, function(err, results) {
         if (err) { return next(err); }
-        res.render('participantForm', { title: 'Create Participant' });
+        res.render('participantForm', { title: 'Register New TWIST Participant' });
     });
 
 };
@@ -56,7 +60,7 @@ exports.participantCreatePost = [
     body('email').isLength({ min: 1 }).trim(),
     body('address').isLength({ min: 1 }).trim(),
     body('participantType').isLength({ min: 1 }).trim(),
-    body('highSchool').isLength({ min: 1 }).trim(),
+    //body('highSchool').isLength({ min: 1 }).trim(),
 
     // Sanitize fields (using wildcard).
     sanitizeBody('*').trim().escape(),
@@ -73,7 +77,7 @@ exports.participantCreatePost = [
             lastName: req.body.lastName,
             email: req.body.email,
             participantType: req.body.participantType,
-            highSchool: req.body.highSchool,
+            //highSchool: req.body.highSchool,
             address: req.body.address,
            });
 
@@ -82,7 +86,7 @@ exports.participantCreatePost = [
             async.parallel({
             }, function(err, results) {
                     if (err) { return next(err); }
-                res.render('participantForm', { title: 'Create Participant', participant: results.participant, errors: errors.array() });
+                res.render('participantForm', { title: 'Register New TWIST Participant', participant: results.participant, errors: errors.array() });
             });
             return;
         }
