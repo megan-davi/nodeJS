@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  br
+
+  ul
+    each topic in topicList
+      li(type='square')
+        a(href=topic.url) #{topic.title}
+
+    else
+      li There are no topics.

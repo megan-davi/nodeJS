@@ -8,37 +8,69 @@ html(lang='en')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(href='https://fonts.googleapis.com/css?family=Montserrat', rel='stylesheet')
+    link(rel='stylesheet', href='/stylesheets/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Montserrat')
   body
-    div(class='container-fluid')
-      div(class='row')
-        div(class='col-sm-2')
-          block sidebar
-            ul(class='sidebar-nav')
-              li
-                a(href='/twist') Home
-              li
-                a(href='/twist/highSchool') All high schools
-              li
-                a(href='/twist/participant') All participants
-              li
-                a(href='/twist/presenter') All presenters
-              li
-                a(href='/twist/room') All rooms
-              li
-                a(href='/twist/schedule') All schedules
-              li
-                a(href='/twist/session') All sessions
-              li
-                a(href='/twist/topic') All topics
-              li
-                hr
-              li
-              li
-                a(href='/twist/highSchool/create') Add new high school
-              li
-                a(href='/twist/participant/create') Add new participant
-
-
-        div(class='col-sm-10')
-          block content
+      .container
+        .header.clearfix
+          nav
+            ul.nav.nav-pills.float-right
+              li.nav-item
+                a.nav-link.active(href='#')
+                  | Home 
+                  span.sr-only (current)
+              li.nav-item
+                a.nav-link(href='#') About
+              li.nav-item
+                a.nav-link(href='#') Contact
+          br
+          h3.text-muted TWIST
+        .jumbotron
+          img(src='images/twist.png')
+          br
+          br
+          .row.intro
+            .col-lg-12
+              h4
+                | TWIST, or Teen Women in Science and Technology, is a one-day conference to expose teen women across the state to various career possibilities. TWIST was developed by K-State Polytechnic and the Salina community more than 25 years ago. TWIST is open to any young woman in ninth through 12th grade. K-State Polytechnic encourages high school sponsors or organizers to register students. Students must register individually to choose their top five career sessions.
+              br
+            .col-lg-6
+              h4
+                | Thursday, Jan. 10, 2019
+              h4
+                | 8:30 a.m. - 1 p.m.
+              h4
+                | K-State Polytechnic Campus
+              h4 
+                | Salina, Kansas
+            .col-lg-6
+              br
+              a.btn.btn-lg.btn-success(href='#', role='button') Sign up today
+        .row.table
+          .col-lg-6
+            h4 Subheading
+            p
+              | Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
+            h4 Subheading
+            p
+              | Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
+            h4 Subheading
+            p Maecenas sed diam eget risus varius blandit sit amet non magna.
+          .col-lg-6
+            h4 Subheading
+            p
+              | Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
+            h4 Subheading
+            p
+              | Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
+            h4 Subheading
+            p Maecenas sed diam eget risus varius blandit sit amet non magna.
+        hr
+        hr
+        
+        block content
+        br
+        hr 
+        footer.footer
+          p Website layout © Bootstrap; Image © K-State Polytechnic
+          

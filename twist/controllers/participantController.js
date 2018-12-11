@@ -102,13 +102,36 @@ exports.participantCreatePost = [
 ];
 
 // ❌ Display participant delete form on GET.
-exports.participantDeleteGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: participant delete GET');
+exports.participantDeleteGet = function(req, res, next) {
+    async.parallel({
+        participant: function(callback) {
+            Participant.findById(req.params.id).exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.author==null) { // No results.
+            res.redirect('/twist/participants');
+        }
+        // Successful, so render.
+        res.render('participantDelete', { title: 'Delete Participant', participant: results.participant } );
+    });
 };
 
 // ❌ Handle participant delete on POST.
-exports.participantDeletePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: participant delete POST');
+exports.participantDeletePost = function(req, res, next) {
+    async.parallel({
+        participant: function(callback) {
+          Participant.findById(req.body.participantid).exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        // Success
+        Participant.findByIdAndRemove(req.body.participantid, function deleteParticipant(err) {
+            if (err) { return next(err); }
+            // Success - go to participant list
+            res.redirect('/twist/participants')
+            })
+        });
 };
 
 // 🔄 Display participant update form on GET.

@@ -1,8 +1,13 @@
 var Topic = require('../models/topic');
 
-// Display list of all topics.
-exports.topicList = function(req, res) {
-    res.send('NOT IMPLEMENTED: topic list');
+// 👀 Display list of all topics.
+exports.topicList = function(req, res, next) {
+  Topic.find({})
+    .exec(function (err, results) {
+      if (err) { return next(err); }
+      //Successful, so render
+      res.render('topicList', { title: 'Topic List', topicList: results });
+    });
 };
 
 // Display detail page for a specific topic.
