@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  h1= title
+  br
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='firstName') First Name:
+      input#firstName.form-control(type='text', placeholder='Participant first name' name='firstName' required='true' value=(undefined===participant ? '' : participant.firstName) )
+    div.form-group
+      label(for='lastName') Last Name:
+      input#lastName.form-control(type='text', placeholder='Participant last name' name='lastName' required='true' value=(undefined===participant ? '' : participant.lastName) )
+    div.form-group
+      label(for='address') Address:
+      input#address.form-control(type='text', placeholder='Participant address' name='address' required='false' value=(undefined===participant ? '' : participant.address) )
+    div.form-group
+      label(for='email') Email:
+      input#email.form-control(type='text', placeholder='Participant email' name='email' required='false' value=(undefined===participant ? '' : participant.email) )
+    div.form-group
+      label(for='participantType') Participant Type:
+      select#participantType.form-control(type='select', placeholder='Select participant tt' name='author' required='true' )
+        for author in authors
+          if book
+            option(value=author._id selected=(author._id.toString()==book.author ? 'selected' : false) ) #{author.name}
+          else
+            option(value=author._id) #{author.name}
+
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
