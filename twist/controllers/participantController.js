@@ -1,4 +1,5 @@
 var Participant = require('../models/participant');
+var HighSchool = require('../models/highSchool');
 var async = require('async');
 
 // Display list of all participants.
@@ -15,8 +16,26 @@ exports.participantList = function(req, res, next) {
 };
 
 // Display detail page for a specific participant.
-exports.participantDetail = function(req, res) {
-    res.send('NOT IMPLEMENTED: participant detail: ' + req.params.id);
+exports.participantDetail = function(req, res, next) {
+    async.parallel({
+        participant: function(callback) {
+            Participant.findById(req.params.id)
+              .exec(callback)
+        },
+        highSchool: function(callback) {
+            HighSchool.find({ 'highSchool': req.params.id })
+            .exec(callback);
+        },
+    }, function(err, results) {
+        if (err) { return next(err); } // Error in API usage.
+        if (results.participant==null) { // No results.
+            var err = new Error('Participant not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Successful, so render.
+        res.render('participantDetail', { title: 'Participant Detail', participant: results.participant, highSchool: results.highSchool } );
+    });
 };
 
 // Display participant create form on GET.

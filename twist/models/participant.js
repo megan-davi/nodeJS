@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 
 var ParticipantSchema = new Schema(
   {
-    participantId: {type: Number, required: true},
     lastName: {type: String, max: 100},
     firstName: {type: String, max: 100},
     address: {type: String, max: 400},
@@ -21,6 +20,13 @@ ParticipantSchema
 .virtual('url')
 .get(function () {
   return '/twist/participant/' + this._id;
+});
+
+// Virtual for participant's full name
+ParticipantSchema
+.virtual('name')
+.get(function () {
+  return this.firstName + " " + this.lastName;
 });
 
 // Export model

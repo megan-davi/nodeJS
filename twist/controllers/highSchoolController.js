@@ -2,7 +2,11 @@ var HighSchool = require('../models/highSchool');
 var Participant = require('../models/participant');
 var async = require('async');
 
-// Displays home page
+// Import validation and sanitization methods
+const { body,validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
+
+// 🏠 Displays home page
 exports.index = function(req, res) {
 
     async.parallel({
@@ -17,7 +21,7 @@ exports.index = function(req, res) {
     });
 };
 
-// // Display list of all high schools.
+// 👀 Display list of all high schools.
 exports.highSchoolList = function(req, res, next) {
   HighSchool.find({})
     .exec(function (err, results) {
@@ -28,7 +32,7 @@ exports.highSchoolList = function(req, res, next) {
 };
 
 
-// Display detail page for a specific high school.
+// 👀 Display detail page for a specific high school.
 exports.highSchoolDetail = function(req, res, next) {
     async.parallel({
         highSchool: function(callback) {
@@ -45,37 +49,76 @@ exports.highSchoolDetail = function(req, res, next) {
         // Successful, so render.
         res.render('highSchoolDetail', { title: 'High School Detail', highSchool: results.highSchool } );
     });
-
 };
 
 
-// Display Author create form on GET.
-exports.highSchoolCreateGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: High School create GET');
+// ⭐️ Display high school create form on GET.
+exports.highSchoolCreateGet = function(req, res, next) {
+    async.parallel({
+    }, function(err, results) {
+        if (err) { return next(err); }
+        res.render('highSchoolForm', { title: 'Create High School' });
+    });
+
 };
 
+// ⭐️ Handle high school create on POST.
+exports.highSchoolCreatePost = [
+    // Validate fields.
+    body('highSchoolName', 'Name must not be empty.').isLength({ min: 1 }).trim(),
+    body('address').isLength({ min: 1 }).trim(),
 
-// Handle high school create on POST.
-exports.highSchoolCreatePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: High school create POST');
-};
+    // Sanitize fields (using wildcard).
+    sanitizeBody('*').trim().escape(),
 
-// Display high school delete form on GET.
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a high school object with escaped and trimmed data.
+        var highSchool = new HighSchool(
+          { highSchoolName: req.body.highSchoolName,
+            address: req.body.address,
+           });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+            async.parallel({
+            }, function(err, results) {
+                    if (err) { return next(err); }
+                res.render('highSchoolForm', { title: 'Create High School', highSchool: results.highSchool, errors: errors.array() });
+            });
+            return;
+        }
+        else {
+            // Data from form is valid. Save high school.
+            highSchool.save(function (err) {
+                if (err) { return next(err); }
+                   //successful - redirect to new high school record.
+                   res.redirect(highSchool.url);
+                });
+        }
+    }
+];
+
+// ❌ Display high school delete form on GET.
 exports.highSchoolDeleteGet = function(req, res) {
     res.send('NOT IMPLEMENTED: High school delete GET');
 };
 
-// Handle high school delete on POST.
+// ❌ Handle high school delete on POST.
 exports.highSchoolDeletePost = function(req, res) {
     res.send('NOT IMPLEMENTED: High school delete POST');
 };
 
-// Display high school update form on GET.
+// 🔄 Display high school update form on GET.
 exports.highSchoolUpdateGet = function(req, res) {
     res.send('NOT IMPLEMENTED: High school update GET');
 };
 
-// Handle high school update on POST.
+// 🔄 Handle high school update on POST.
 exports.highSchoolUpdatePost = function(req, res) {
     res.send('NOT IMPLEMENTED: High school update POST');
 };
