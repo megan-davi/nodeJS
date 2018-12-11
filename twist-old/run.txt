@@ -1,6 +1,0 @@
-npm install
-npm install moment
-
-SET DEBUG=twist:* & npm run devstart
-
-localhost:3000
