@@ -28,14 +28,3 @@ img {
     background-color: #61338c;
     border-color: #61338c;
 }
-
-.nav-item {
-    background-color: #61338c;
-    border-color: #61338c;
-    border-radius: 4pt;
-    height: 35px;
-}
-.a.nav-item, a.nav-link {
-    color: white;
-    font-size: .9em;
-}

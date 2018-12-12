@@ -10,24 +10,19 @@ html(lang='en')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/css/bootstrap.min.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Montserrat')
-  br
   body
       .container
         .header.clearfix
           nav
             ul.nav.nav-pills.float-right
               li.nav-item
-                a.nav-link(href='#') Home 
+                a.nav-link.active(href='#')
+                  | Home 
+                  span.sr-only (current)
               li.nav-item
-                a.nav-link(href='#') Register for TWIST
+                a.nav-link(href='#') About
               li.nav-item
-                a.nav-link(href='#') Participant List
-              li.nav-item
-                a.nav-link(href='#') Presenter List
-              li.nav-item
-                a.nav-link(href='#') Topic Information
-              li.nav-item
-                a.nav-link(href='#') Room Information
+                a.nav-link(href='#') Contact
           br
           h3.text-muted TWIST
         .jumbotron
