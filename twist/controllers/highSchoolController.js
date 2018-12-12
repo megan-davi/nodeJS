@@ -59,7 +59,6 @@ exports.highSchoolCreateGet = function(req, res, next) {
         if (err) { return next(err); }
         res.render('highSchoolForm', { title: 'Create High School' });
     });
-
 };
 
 // ⭐️ Handle high school create on POST.
@@ -134,12 +133,89 @@ exports.highSchoolDeletePost = function(req, res) {
 };
 
 
-// 🔄 Display high school update form on GET.
-exports.highSchoolUpdateGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: High school update GET');
+// 🔄 Display highSchool update form on GET.
+exports.highSchoolUpdateGet = function(req, res, next) {
+
+    // Get highSchool, and participant for form.
+    async.parallel({
+        highSchool: function(callback) {
+            highSchool.findById(req.params.id).exec(callback);
+        }},
+         function(err, results) {
+            if (err) { return next(err); }
+            if (results.highSchool==null) { // No results.
+                var err = new Error('highSchool not found');
+                err.status = 404;
+                return next(err);
+            }
+            // Success.
+            res.render('highSchool_form', { title: 'Update High School', highSchool: results.highSchool });
+        });
+
 };
 
-// 🔄 Handle high school update on POST.
-exports.highSchoolUpdatePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: High school update POST');
-};
+// 🔄 Handle highSchool update on POST.
+exports.highSchoolUpdatePost = [
+
+    // Convert the participants to an array
+    (req, res, next) => {
+        if(!(req.body.participants instanceof Array)){
+            if(typeof req.body.participants==='undefined')
+            req.body.participants=[];
+            else
+            req.body.participants=new Array(req.body.participants);
+        }
+        next();
+    },
+   
+    // Validate fields.
+    body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
+
+    // Sanitize fields.
+    sanitizeBody('title').trim().escape(),
+    sanitizeBody('participants.*').trim().escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a highSchool object with escaped/trimmed data and old id.
+        var highSchool = new highSchool(
+          { title: req.body.title,
+            participants: (typeof req.body.participants==='undefined') ? [] : req.body.participants,
+            _id:req.params.id //This is required, or a new ID will be assigned!
+           });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+
+            // Get all participants for form.
+            async.parallel({
+                participants: function(callback) {
+                    participant.find(callback);
+                },
+            }, function(err, results) {
+                if (err) { return next(err); }
+
+                // Mark our selected participants as checked.
+                for (let i = 0; i < results.participants.length; i++) {
+                    if (highSchool.genre.indexOf(results.participants[i]._id) > -1) {
+                        results.participants[i].checked='true';
+                    }
+                }
+                res.render('highSchool_form', { title: 'Update High School', participants:results.participants, highSchool: highSchool, errors: errors.array() });
+            });
+            return;
+        }
+        else {
+            // Data from form is valid. Update the record.
+            highSchool.findByIdAndUpdate(req.params.id, highSchool, {}, function (err,highSchool) {
+                if (err) { return next(err); }
+                   // Successful - redirect to highSchool detail page.
+                   res.redirect(highSchool.url);
+                });
+        }
+    }
+];

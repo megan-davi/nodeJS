@@ -4,8 +4,7 @@ var Schema = mongoose.Schema;
 
 var SessionSchema = new Schema(
   {
-    sessionNum: {type: Number, required: true},
-    time: {type: Date, default: Date.now}
+    time: {type: String}
   }
 );
 

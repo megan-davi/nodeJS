@@ -90,7 +90,7 @@ exports.presenterCreatePost = [
     }
 ];
 
-// Display presenter delete form on GET.
+// ❌ Display presenter delete form on GET.
 exports.presenterDeleteGet = function(req, res) {
     async.parallel({
         presenter: function(callback) {
@@ -106,7 +106,7 @@ exports.presenterDeleteGet = function(req, res) {
     });
 };
 
-// Handle presenter delete on POST.
+// ❌ Handle presenter delete on POST.
 exports.presenterDeletePost = function(req, res) {
     async.parallel({
         presenter: function(callback) {
@@ -123,12 +123,68 @@ exports.presenterDeletePost = function(req, res) {
         });
 };
 
-// Display presenter update form on GET.
-exports.presenterUpdateGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: presenter update GET');
+// 🔄 Display presenter update form on GET.
+exports.presenterUpdateGet = function(req, res, next) {
+
+    // Get presenter for form.
+    async.parallel({
+        presenter: function(callback) {
+            presenter.findById(req.params.id).exec(callback);
+        }},
+         function(err, results) {
+            if (err) { return next(err); }
+            if (results.presenter==null) { // No results.
+                var err = new Error('presenter not found');
+                err.status = 404;
+                return next(err);
+            }
+            // Success.
+            res.render('presenter_form', { title: 'Update Presenter', presenter: results.presenter });
+        });
+
 };
 
-// Handle presenter update on POST.
-exports.presenterUpdatePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: presenter update POST');
-};
+// 🔄 Handle pressesnter update on POST.
+exports.presenterUpdatePost = [
+
+   
+    // Validate fields.
+    body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
+
+    // Sanitize fields.
+    sanitizeBody('title').trim().escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a pressesnter object with escaped/trimmed data and old id.
+        var pressesnter = new pressesnter(
+          { title: req.body.title,
+            _id:req.params.id //This is required, or a new ID will be assigned!
+           });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+
+            // Get all pressesnter for form.
+            async.parallel({
+            }, function(err, results) {
+                if (err) { return next(err); }
+
+                res.render('pressesnter_form', { title: 'Update Pressenter', pressesnter: pressesnter, errors: errors.array() });
+            });
+            return;
+        }
+        else {
+            // Data from form is valid. Update the record.
+            pressesnter.findByIdAndUpdate(req.params.id, pressesnter, {}, function (err,pressesnter) {
+                if (err) { return next(err); }
+                   // Successful - redirect to pressesnter detail page.
+                   res.redirect(pressesnter.url);
+                });
+        }
+    }
+];

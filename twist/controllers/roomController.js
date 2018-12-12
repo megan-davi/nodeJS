@@ -86,7 +86,7 @@ exports.roomCreatePost = [
     }
 ];
 
-// ? Display room delete form on GET.
+// ❌ Display room delete form on GET.
 exports.roomDeleteGet = function(req, res, next) {
 
     async.parallel({
@@ -103,7 +103,7 @@ exports.roomDeleteGet = function(req, res, next) {
     });
 };
 
-// ? Handle room delete on POST.
+// ❌ Handle room delete on POST.
 exports.roomDeletePost = function(req, res, next) {
 
     async.parallel({
@@ -121,13 +121,66 @@ exports.roomDeletePost = function(req, res, next) {
         });
 };
 
+// 🔄 Display room update form on GET.
+exports.roomUpdateGet = function(req, res, next) {
 
-// Display room update form on GET.
-exports.roomUpdateGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: room update GET');
+    // Get schedule for form.
+    async.parallel({
+        room: function(callback) {
+            Room.findById(req.params.id).exec(callback);
+        }},
+         function(err, results) {
+            if (err) { return next(err); }
+            if (results.room==null) { // No results.
+                var err = new Error('room not found');
+                err.status = 404;
+                return next(err);
+            }
+            // Success.
+            res.render('roomForm', { title: 'Update Room', room: results.room });
+        });
+
 };
 
-// Handle room update on POST.
-exports.roomUpdatePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: room update POST');
-};
+// 🔄 Handle room update on POST.
+exports.roomUpdatePost = [
+    // Validate fields.
+    body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
+
+    // Sanitize fields.
+    sanitizeBody('title').trim().escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a room object with escaped/trimmed data and old id.
+        var room = new Room(
+          { title: req.body.title,
+            _id:req.params.id //This is required, or a new ID will be assigned!
+           });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+
+            // Get all room for form.
+            async.parallel({
+            }, function(err, results) {
+                if (err) { return next(err); }
+
+                res.render('roomForm', { title: 'Update Room', room: results.room, errors: errors.array() });
+            });
+            return;
+        }
+        else {
+            // Data from form is valid. Update the record.
+            Room.findByIdAndUpdate(req.params.id, room, {}, function (err,theRoom) {
+                if (err) { return next(err); }
+                   // Successful - redirect to room detail page.
+                   res.redirect(theRoom.url);
+                });
+        }
+    }
+];

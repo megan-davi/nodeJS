@@ -163,9 +163,6 @@ router.get('/session/:id/update', sessionController.sessionUpdateGet);
 // POST request to update session.
 router.post('/session/:id/update', sessionController.sessionUpdatePost);
 
-// GET request for one session.
-router.get('/session/:id', sessionController.sessionDetail);
-
 // GET request for list of all sessions.
 router.get('/session', sessionController.sessionList);
 

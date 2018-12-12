@@ -100,7 +100,7 @@ exports.participantCreatePost = [
     }
 ];
 
-// ? Display participant delete form on GET.
+// ❌ Display participant delete form on GET.
 exports.participantDeleteGet = function(req, res, next) {
 
     async.parallel({
@@ -117,7 +117,7 @@ exports.participantDeleteGet = function(req, res, next) {
     });
 };
 
-// ? Handle participant delete on POST.
+// ❌ Handle participant delete on POST.
 exports.participantDeletePost = function(req, res, next) {
 
     async.parallel({
@@ -136,11 +136,65 @@ exports.participantDeletePost = function(req, res, next) {
 };
 
 // 🔄 Display participant update form on GET.
-exports.participantUpdateGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: participant update GET');
+exports.participantUpdateGet = function(req, res, next) {
+
+    // Get participant for form.
+    async.parallel({
+        participant: function(callback) {
+            Participant.findById(req.params.id).exec(callback);
+        }},
+         function(err, results) {
+            if (err) { return next(err); }
+            if (results.participant==null) { // No results.
+                var err = new Error('participant not found');
+                err.status = 404;
+                return next(err);
+            }
+            // Success.
+            res.render('participantForm', { title: 'Update Participant', participant: results.participant });
+        });
+
 };
 
 // 🔄 Handle participant update on POST.
-exports.participantUpdatePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: participant update POST');
-};
+exports.participantUpdatePost = [
+    // Validate fields.
+    body('firstName', 'First name must not be empty.').isLength({ min: 1 }).trim(),
+
+    // Sanitize fields.
+    sanitizeBody('title').trim().escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a participant object with escaped/trimmed data and old id.
+        var participant = new Participant(
+          { firstName: req.body.firstName,
+            _id:req.params.id //This is required, or a new ID will be assigned!
+           });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+
+            // Get all participants for form.
+            async.parallel({
+            }, function(err, results) {
+                if (err) { return next(err); }
+
+                res.render('participantForm', { title: 'Update Participant', participant: results.participant, errors: errors.array() });
+            });
+            return;
+        }
+        else {
+            // Data from form is valid. Update the record.
+            Participant.findByIdAndUpdate(req.params.id, participant, {}, function (err,theParticipant) {
+                if (err) { return next(err); }
+                   // Successful - redirect to participant detail page.
+                   res.redirect(theParticipant.url);
+                });
+        }
+    }
+];

@@ -123,11 +123,67 @@ exports.topicDeletePost = function(req, res, next) {
 };
 
 // Display topic update form on GET.
-exports.topicUpdateGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: topic update GET');
+exports.topicUpdateGet = function(req, res, next) {
+
+    // Get topic for form.
+    async.parallel({
+        topic: function(callback) {
+            topic.findById(req.params.id).exec(callback);
+        }},
+         function(err, results) {
+            if (err) { return next(err); }
+            if (results.topic==null) { // No results.
+                var err = new Error('topic not found');
+                err.status = 404;
+                return next(err);
+            }
+            // Success.
+            res.render('topic_form', { title: 'Update Topic', topic: results.topic });
+        });
+
 };
 
 // Handle topic update on POST.
-exports.topicUpdatePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: topic update POST');
-};
+exports.topicUpdatePost = [
+
+   
+    // Validate fields.
+    body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
+
+    // Sanitize fields.
+    sanitizeBody('title').trim().escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a topic object with escaped/trimmed data and old id.
+        var topic = new topic(
+          { title: req.body.title,
+            _id:req.params.id //This is required, or a new ID will be assigned!
+           });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+
+            // Get all topic for form.
+            async.parallel({
+            }, function(err, results) {
+                if (err) { return next(err); }
+
+                res.render('topic_form', { title: 'Update Topic', topic: topic, errors: errors.array() });
+            });
+            return;
+        }
+        else {
+            // Data from form is valid. Update the record.
+            topic.findByIdAndUpdate(req.params.id, topic, {}, function (err,topic) {
+                if (err) { return next(err); }
+                   // Successful - redirect to topic detail page.
+                   res.redirect(topic.url);
+                });
+        }
+    }
+];

@@ -4,10 +4,10 @@ var Schema = mongoose.Schema;
 
 var ScheduleSchema = new Schema(
   {
-    sessionNum: {type: Schema.Types.ObjectId, ref: 'Session', required: true},
-    roomNum: {type: Schema.Types.ObjectId, ref: 'Room', required: true},
-    topicCode: {type: Schema.Types.ObjectId, ref: 'Topic'},
-    presenterId: {type: Schema.Types.ObjectId, ref: 'Presenter'}
+    session: {type: Schema.Types.ObjectId, ref: 'Session', required: true},
+    room: {type: Schema.Types.ObjectId, ref: 'Room', required: true},
+    topic: {type: Schema.Types.ObjectId, ref: 'Topic'},
+    presenter: {type: Schema.Types.ObjectId, ref: 'Presenter'}
   }
 );
 
