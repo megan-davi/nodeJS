@@ -4,14 +4,12 @@ var Schema = mongoose.Schema;
 
 var PresenterSchema = new Schema(
   {
-    presenterId: {type: String, required: true},
     lastName: {type: String, max: 100, required: true},
     firstName: {type: String, max: 100, required: true},
     occupation: {type: String, max: 100},
-    mainPhone: {type: Number, max: 100},
+    mainPhone: {type: String, max: 10},
   }
 );
-
 
 // Virtual for presenter's URL
 PresenterSchema
@@ -19,6 +17,14 @@ PresenterSchema
 .get(function () {
   return '/twist/presenter/' + this._id;
 });
+
+// Virtual for presenter's full name
+PresenterSchema
+.virtual('name')
+.get(function () {
+  return this.firstName + " " + this.lastName;
+});
+
 
 // Export model
 module.exports = mongoose.model('Presenter', PresenterSchema);

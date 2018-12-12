@@ -16,17 +16,22 @@ html(lang='en')
           nav
             ul.nav.nav-pills.float-right
               li.nav-item
-                a.nav-link.active(href='#')
-                  | Home 
-                  span.sr-only (current)
+                a.nav-link(href='/twist') Home 
               li.nav-item
-                a.nav-link(href='#') About
+                a.nav-link(href='/twist/highSchool') HS List
               li.nav-item
-                a.nav-link(href='#') Contact
+                a.nav-link(href='/twist/participant') Participant List
+              li.nav-item
+                a.nav-link(href='/twist/presenter') Presenter List
+              li.nav-item
+                a.nav-link(href='/twist/topic') Topic Info
+              li.nav-item
+                a.nav-link(href='/twist/room') Room Info
           br
-          h3.text-muted TWIST
+          br
+          h3.text-muted TWIST Admin Panel
         .jumbotron
-          img(src='images/twist.png')
+          img(src='/images/twist.png')
           br
           br
           .row.intro
@@ -45,30 +50,10 @@ html(lang='en')
                 | Salina, Kansas
             .col-lg-6
               br
-              a.btn.btn-lg.btn-success(href='#', role='button') Sign up today
-        .row.table
-          .col-lg-6
-            h4 Subheading
-            p
-              | Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
-            h4 Subheading
-            p
-              | Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
-            h4 Subheading
-            p Maecenas sed diam eget risus varius blandit sit amet non magna.
-          .col-lg-6
-            h4 Subheading
-            p
-              | Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
-            h4 Subheading
-            p
-              | Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
-            h4 Subheading
-            p Maecenas sed diam eget risus varius blandit sit amet non magna.
-        hr
-        hr
-        
+              a.btn.btn-lg.btn-success(href='/twist/participant/create', role='button') Sign up today
+        br
         block content
+        br
         br
         hr 
         footer.footer

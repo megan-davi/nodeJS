@@ -49,7 +49,6 @@ exports.participantCreateGet = function(req, res, next) {
         if (err) { return next(err); }
         res.render('participantForm', { title: 'Register New TWIST Participant' });
     });
-
 };
 
 // ⭐️ Handle participant create on POST.
@@ -101,24 +100,26 @@ exports.participantCreatePost = [
     }
 ];
 
-// ❌ Display participant delete form on GET.
+// ? Display participant delete form on GET.
 exports.participantDeleteGet = function(req, res, next) {
+
     async.parallel({
         participant: function(callback) {
             Participant.findById(req.params.id).exec(callback)
         },
     }, function(err, results) {
         if (err) { return next(err); }
-        if (results.author==null) { // No results.
-            res.redirect('/twist/participants');
+        if (results.participant==null) { // No results.
+            res.redirect('/twist/participant');
         }
         // Successful, so render.
         res.render('participantDelete', { title: 'Delete Participant', participant: results.participant } );
     });
 };
 
-// ❌ Handle participant delete on POST.
+// ? Handle participant delete on POST.
 exports.participantDeletePost = function(req, res, next) {
+
     async.parallel({
         participant: function(callback) {
           Participant.findById(req.body.participantid).exec(callback)
@@ -129,7 +130,7 @@ exports.participantDeletePost = function(req, res, next) {
         Participant.findByIdAndRemove(req.body.participantid, function deleteParticipant(err) {
             if (err) { return next(err); }
             // Success - go to participant list
-            res.redirect('/twist/participants')
+            res.redirect('/twist/participant')
             })
         });
 };

@@ -20,14 +20,39 @@ exports.scheduleCreatePost = function(req, res) {
     res.send('NOT IMPLEMENTED: schedule create POST');
 };
 
-// Display schedule delete form on GET.
-exports.scheduleDeleteGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: schedule delete GET');
+// ? Display schedule delete form on GET.
+exports.scheduleDeleteGet = function(req, res, next) {
+
+    async.parallel({
+        schedule: function(callback) {
+            schedule.findById(req.params.id).exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.schedule==null) { // No results.
+            res.redirect('/twist/schedule');
+        }
+        // Successful, so render.
+        res.render('scheduleDelete', { title: 'Delete schedule', schedule: results.schedule } );
+    });
 };
 
-// Handle schedule delete on POST.
-exports.scheduleDeletePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: schedule delete POST');
+// ? Handle schedule delete on POST.
+exports.scheduleDeletePost = function(req, res, next) {
+
+    async.parallel({
+        schedule: function(callback) {
+            schedule.findById(req.body.scheduleid).exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        // Success
+        schedule.findByIdAndRemove(req.body.scheduleid, function deleteschedule(err) {
+            if (err) { return next(err); }
+            // Success - go to room list
+            res.redirect('/twist/schedule')
+            })
+        });
 };
 
 // Display schedule update form on GET.

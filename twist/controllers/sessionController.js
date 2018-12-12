@@ -20,14 +20,39 @@ exports.sessionCreatePost = function(req, res) {
     res.send('NOT IMPLEMENTED: session create POST');
 };
 
-// Display session delete form on GET.
-exports.sessionDeleteGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: session delete GET');
+// ? Display session delete form on GET.
+exports.sessionDeleteGet = function(req, res, next) {
+
+    async.parallel({
+        session: function(callback) {
+            session.findById(req.params.id).exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.session==null) { // No results.
+            res.redirect('/twist/session');
+        }
+        // Successful, so render.
+        res.render('sessionDelete', { title: 'Delete session', session: results.session } );
+    });
 };
 
-// Handle session delete on POST.
-exports.sessionDeletePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: session delete POST');
+// ? Handle session delete on POST.
+exports.sessionDeletePost = function(req, res, next) {
+
+    async.parallel({
+        session: function(callback) {
+            session.findById(req.body.sessionid).exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        // Success
+        session.findByIdAndRemove(req.body.sessionid, function deletesession(err) {
+            if (err) { return next(err); }
+            // Success - go to room list
+            res.redirect('/twist/session')
+            })
+        });
 };
 
 // Display session update form on GET.

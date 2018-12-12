@@ -10,7 +10,7 @@ block content
       input#highSchoolName.form-control(type='text', placeholder='Name of high school' name='highSchoolName' required='true' value=(undefined===highSchool ? '' : highSchool.highSchoolName) )
     div.form-group
       label(for='address') Address:
-      input#address.form-control(type='text', placeholder='Address of high school' name='address' required='false' value=(undefined===address ? '' : highSchool.address) )
+      input#address.form-control(type='text', placeholder='Address of high school' name='address' required='false' value=(undefined===highSchool ? '' : highSchool.address) )
     button.btn.btn-primary(type='submit') Submit
 
   if errors

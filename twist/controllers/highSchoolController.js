@@ -105,13 +105,34 @@ exports.highSchoolCreatePost = [
 
 // ❌ Display high school delete form on GET.
 exports.highSchoolDeleteGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: High school delete GET');
-};
+  async.parallel({
+            highSchool: function(callback) {
+                HighSchool.findById(req.params.id).exec(callback)
+            },
+        }, function(err, results) {
+            if (err) { return next(err); }
+            // Successful, so render.
+            res.render('highSchoolDelete', { title: 'Delete High School', highSchool: results.highSchool } );
+        });
+    };
 
 // ❌ Handle high school delete on POST.
 exports.highSchoolDeletePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: High school delete POST');
+    async.parallel({
+        highSchool: function(callback) {
+          HighSchool.findById(req.body.highschoolid).exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        // Success
+        HighSchool.findByIdAndRemove(req.body.highschoolid, function deletehighSchool(err) {
+           if (err) { return next(err); }
+            //Success - go to High School list
+           res.redirect('/twist/highschool')
+           })
+        });
 };
+
 
 // 🔄 Display high school update form on GET.
 exports.highSchoolUpdateGet = function(req, res) {

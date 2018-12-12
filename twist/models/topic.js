@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 
 var TopicSchema = new Schema(
   {
-    topicCode: {type: Number, required: true},
     title: {type: String, max: 100, required: true},
     description: {type: String, max: 1000},
     presenter: {type: String, max: 100, type: Schema.Types.ObjectId, ref: 'Presenter'}
